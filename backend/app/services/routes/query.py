@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
-from backend.app.models.schemas import QueryRequest, QueryResponse
-from backend.app.services.llm_service import generate_aggregation_pipeline
-from backend.app.services.query_service import execute_aggregation_pipeline
+from app.models.schemas import QueryRequest, QueryResponse
+from app.services.llm_service import generate_aggregation_pipeline
+from app.services.query_service import execute_aggregation_pipeline
 
 router = APIRouter()
 

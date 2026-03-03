@@ -4,7 +4,6 @@ import {
     PieChart, Pie, Cell,
     LineChart, Line
 } from 'recharts';
-import { BarChart3, Filter, Download, Maximize2 } from 'lucide-react';
 
 const COLORS = ['#1b3358', '#2e4c7d', '#4566a0', '#6382c4', '#86a1e5', '#cbd5e1'];
 
@@ -89,12 +88,6 @@ const ChartRenderer = ({ chartConfig }) => {
                 <div className="chart-info">
                     <h3>{title}</h3>
                     <p>Q3 FY2023 — All Regions</p>
-                </div>
-                <div className="chart-actions">
-                    <BarChart3 size={18} className="action-icon" />
-                    <Filter size={18} className="action-icon" />
-                    <Download size={18} className="action-icon" />
-                    <Maximize2 size={18} className="action-icon" />
                 </div>
             </div>
             <div style={{ width: '100%', height: 320 }}>

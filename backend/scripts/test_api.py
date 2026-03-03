@@ -11,16 +11,20 @@ queries = [
 def test_query(query):
     print(f"\nTesting query: {query}")
     try:
-        response = httpx.post(f"{BASE_URL}/query", json={"query": query})
-        if response.status_code == 200:
-            data = response.json()
-            print(f"Title: {data.get('title')}")
-            print(f"Chart Type: {data.get('chart_type')}")
-            print(f"Data Sample (first 2): {data.get('data')[:2]}")
+        r = httpx.post(f"{BASE_URL}/query", json={"query": query}, timeout=30.0)
+        # Print full JSON response as requested by the instruction description
+        print(f"Full JSON Response: {r.json()}")
+        
+        data = r.json()
+        print(f"Title: {data.get('title')}")
+        print(f"Chart Type: {data.get('chart_type')}")
+        print(f"Data count: {len(data.get('data', []))}")
+        if data.get('data'):
+            print(f"First 2 records: {data.get('data')[:2]}")
         else:
-            print(f"Error: {response.status_code} - {response.text}")
+            print("DATA IS EMPTY")
     except Exception as e:
-        print(f"Connection Error: {e}")
+        print(f"Error: {e}")
 
 if __name__ == "__main__":
     for q in queries:

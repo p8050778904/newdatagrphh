@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from backend.app.database.mongodb import connect_to_mongo, close_mongo_connection
-from backend.app.routes import query
+from app.database.mongodb_connector import connect_to_mongo, close_mongo_connection
+from app.services.routes import query
 
 app = FastAPI(title="AI-Driven Analytics Dashboard")
 

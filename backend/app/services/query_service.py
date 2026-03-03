@@ -1,4 +1,4 @@
-from backend.app.database.mongodb import get_database
+from app.database.mongodb_connector import get_database
 from typing import List, Dict, Any
 
 async def execute_aggregation_pipeline(collection_name: str, pipeline: List[Dict[str, Any]]) -> List[Dict[str, Any]]:

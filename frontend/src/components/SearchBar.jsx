@@ -28,8 +28,7 @@ const SearchBar = ({ onSearch, isLoading }) => {
         <div className="search-dashboard-card">
             <div className="search-header">
                 <Sparkles size={18} className="accent-icon" color="var(--primary)" />
-                <h2>Ask Croma AI</h2>
-                <span className="badge">Powered by Tata Group Retail Intelligence</span>
+                <h2>Ask Nova Analytics</h2>
             </div>
 
             <form className="search-form" onSubmit={handleSubmit}>

@@ -1,7 +1,7 @@
 import os
 import json
 from openai import AsyncOpenAI
-from backend.app.llm.prompt import SYSTEM_PROMPT
+from app.services.llm.prompt import SYSTEM_PROMPT
 
 # Initialize OpenAI Client
 # The user should set OPENAI_API_KEY in backend/.env
@@ -46,7 +46,8 @@ async def simulated_generate_pipeline(user_query: str) -> dict:
         return {
             "collection": "sales",
             "pipeline": [
-                {"$lookup": {"from": "regions", "localField": "region_id", "foreignField": "_id", "as": "reg"}},
+                {"$addFields": {"region_str": {"$toString": "$region_id"}}},
+                {"$lookup": {"from": "regions", "localField": "region_str", "foreignField": "_id", "as": "reg"}},
                 {"$unwind": "$reg"},
                 {"$group": {"_id": "$reg.region_name", "total_sales": {"$sum": "$total_amount"}}},
                 {"$project": {"region": "$_id", "total_sales": 1, "_id": 0}},
@@ -62,7 +63,8 @@ async def simulated_generate_pipeline(user_query: str) -> dict:
             "collection": "sales",
             "pipeline": [
                 {"$unwind": "$product_breakdown"},
-                {"$lookup": {"from": "products", "localField": "product_breakdown.product_id", "foreignField": "_id", "as": "prod"}},
+                {"$addFields": {"prod_id_str": {"$toString": "$product_breakdown.product_id"}}},
+                {"$lookup": {"from": "products", "localField": "prod_id_str", "foreignField": "_id", "as": "prod"}},
                 {"$unwind": "$prod"},
                 {"$group": {"_id": "$prod.brand", "revenue": {"$sum": "$product_breakdown.amount"}}},
                 {"$project": {"brand": "$_id", "revenue": 1, "_id": 0}},
@@ -77,7 +79,8 @@ async def simulated_generate_pipeline(user_query: str) -> dict:
         return {
             "collection": "sales",
             "pipeline": [
-                {"$lookup": {"from": "employees", "localField": "employee_id", "foreignField": "_id", "as": "emp"}},
+                {"$addFields": {"emp_id_str": {"$toString": "$employee_id"}}},
+                {"$lookup": {"from": "employees", "localField": "emp_id_str", "foreignField": "_id", "as": "emp"}},
                 {"$unwind": "$emp"},
                 {"$group": {"_id": "$emp.name", "revenue": {"$sum": "$total_amount"}}},
                 {"$project": {"employee": "$_id", "revenue": 1, "_id": 0}},

@@ -11,6 +11,17 @@ function App() {
     const [chartConfig, setChartConfig] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [lastUpdated, setLastUpdated] = useState('');
+
+    const updateTimestamp = () => {
+        const now = new Date();
+        const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        setLastUpdated(`Today, ${time}`);
+    };
+
+    React.useEffect(() => {
+        updateTimestamp();
+    }, []);
 
     const handleSearch = async (query) => {
         setIsLoading(true);
@@ -18,6 +29,7 @@ function App() {
         try {
             const response = await axios.post(`${API_BASE_URL}/query`, { query });
             setChartConfig(response.data);
+            updateTimestamp();
         } catch (err) {
             console.error('API Error:', err);
             setError(err.response?.data?.detail || 'Failed to process query. Please check if the backend is running.');
@@ -31,19 +43,18 @@ function App() {
             {/* Minimalist Navbar */}
             <nav className="navbar">
                 <div className="nav-left">
-                    <div className="logo-box">T</div>
-                    <span className="nav-logo-text">TechNova Analytics</span>
+                    <div className="logo-box">N</div>
+                    <span className="nav-logo-text">Nova Analytics</span>
                 </div>
             </nav>
 
             {/* Overview Header */}
             <section className="overview-section">
                 <div className="overview-title">
-                    <h1>AI Analytics Overview</h1>
-                    <p>Real-time insights generated from ERP data streams — FY 2023</p>
+                    <h1>Analytics Overview</h1>
                 </div>
                 <div className="update-status">
-                    Last updated: Today, 09:41 AM
+                    Last updated: {lastUpdated}
                 </div>
             </section>
 
@@ -61,7 +72,7 @@ function App() {
 
                 {!chartConfig && !isLoading && !error && (
                     <div className="loading-container" style={{ gridColumn: '1 / -1' }}>
-                        <Sparkles size={48} color="var(--primary)" style={{ opacity: 0.1, marginBottom: '1rem' }} />
+                        <Sparkles size={48} color="var(--primary)" style={{ opacity: 0.6, marginBottom: '1rem' }} />
                         <p>Ask a question to generate interactive analytics</p>
                     </div>
                 )}
